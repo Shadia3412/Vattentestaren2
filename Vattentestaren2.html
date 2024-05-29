@@ -29,7 +29,7 @@
         }
 
         .map-image {
-            width: 400px; /* Adjust the width as needed */
+            width: 100%; /* Adjust the width as needed */
             height: auto; /* Maintain aspect ratio */
             position: relative;
         }
@@ -95,32 +95,21 @@
         /* Style for highlighted area */
         .highlight {
             position: absolute;
-            top: 437px; /* Adjust these values to match the coordinates */
-            left: 248px; /* Adjust these values to match the coordinates */
-            width: 110px; /* Adjust width based on coords */
-            height: 83px; /* Adjust height based on coords */
+            top: 60%; /* Adjust these values to match the coordinates */
+            left: 32%; /* Adjust these values to match the coordinates */
+            width: 6%; /* Adjust width based on coords */
+            height: 6%; /* Adjust height based on coords */
             background-color: rgba(255, 0, 0, 0.5); /* Semi-transparent red */
             pointer-events: none; /* Allows clicks to pass through */
             display: none; /* Hidden by default */
         } 
-        /* Style for highlighted area */
-.highlight {
-    position: absolute;
-    top: 437px; /* Adjust these values to match the coordinates */
-    left: 248px; /* Adjust these values to match the coordinates */
-    width: 110px; /* Adjust width based on coords */
-    height: 83px; /* Adjust height based on coords */
-    background-color: rgba(255, 0, 0, 0.5); /* Semi-transparent red */
-    pointer-events: none; /* Allows clicks to pass through */
-    display: none; /* Hidden by default */
-}
     </style>
 </head>
 <body>
     <header>
         <div class="navbar navbar-dark bg-grayish box-shadow">
             <div class="container d-flex justify-content-between">
-                <img src="naturvardsverket-logo.png" alt="Naturvårdsverkets logotyp" class="logo">
+                <img src="naturvardsverket-logo.svg" alt="Naturvårdsverkets logotyp" class="logo">
                 <!-- Meny button -->
                 <button class="btn btn-primary meny-btn" type="button" data-bs-toggle="collapse" data-bs-target="#menyCollapse" aria-expanded="false" aria-controls="menyCollapse">
                     Meny
