@@ -6,7 +6,6 @@ document.addEventListener('DOMContentLoaded', function () {
     if (searchInput) {
         searchInput.addEventListener('input', function () {
             filterPlaces();
-            search();
         });
     }
 
@@ -55,6 +54,29 @@ function filterPlaces() {
         } else {
             li[i].style.display = "none";
         }
+    }
+}
+
+// Highlight Sätraskogen on the map
+function highlightArea(areaId) {
+    // Hide all highlighted areas
+    var highlights = document.querySelectorAll('.highlight');
+    highlights.forEach(function(highlight) {
+        highlight.style.display = 'none';
+    });
+    
+    // Show the selected area
+    var highlight = document.getElementById(areaId);
+    if (highlight) {
+        highlight.style.display = 'block';
+    }
+}
+
+// Search function to highlight Sätraskogen
+function search() {
+    var input = document.getElementById('searchInput').value.toLowerCase();
+    if (input === 'sätraskogen') {
+        highlightArea('satraskogen-highlight');
     }
 }
 
