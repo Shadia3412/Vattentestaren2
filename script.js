@@ -129,4 +129,6 @@ function submitWizard() {
 
 function openBox() {
     alert('Boxen är öppnad nu!');
-}
+} 
+
+
