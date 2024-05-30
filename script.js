@@ -26,6 +26,7 @@ function toggleButton(event, buttonId) {
     var selectedButton = document.getElementById(buttonId);
     selectedButton.classList.add('active');
 }
+
 function toggleMenu() {
     var menyCollapse = document.querySelector('.meny-collapse');
     if (menyCollapse.style.display === 'block') {
