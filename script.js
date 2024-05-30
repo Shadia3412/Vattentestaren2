@@ -12,7 +12,20 @@ document.addEventListener('DOMContentLoaded', function () {
     // Initialize the wizard
     initializeWizard();
 });
+function toggleButton(event, buttonId) {
+    // Förhindra standardbeteendet
+    event.preventDefault();
 
+    // Hämta alla toggle-knappar
+    var buttons = document.querySelectorAll('.toggle-button');
+    // Inaktivera alla knappar
+    buttons.forEach(function(button) {
+        button.classList.remove('active');
+    });
+    // Aktivera den valda knappen
+    var selectedButton = document.getElementById(buttonId);
+    selectedButton.classList.add('active');
+}
 function toggleMenu() {
     var menyCollapse = document.querySelector('.meny-collapse');
     if (menyCollapse.style.display === 'block') {
