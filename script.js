@@ -1,17 +1,16 @@
-document.addEventListener('DOMContentLoaded', function () {
-    setupMenuButton();
-    
-    // Add event listener for the search input
-    var searchInput = document.getElementById('searchInput');
-    if (searchInput) {
-        searchInput.addEventListener('input', function () {
-            filterPlaces();
-        });
-    }
+document.addEventListener("DOMContentLoaded", function() {
+    const loadingSpinner = document.getElementById("loadingSpinner");
+    loadingSpinner.style.display = "block";
+    setTimeout(function() {
+        loadingSpinner.style.display = "none";
+        document.querySelector("main").style.display = "block";
+    }, 5000); // 5000 milliseconds = 5 seconds
+});
 
     // Initialize the wizard
-    initializeWizard();
-});
+    function showWizard() {
+        document.getElementById('wizardContainer').style.display = 'block';
+    }
 function toggleButton(event, buttonId) {
     // Förhindra standardbeteendet
     event.preventDefault();
@@ -144,5 +143,3 @@ function submitWizard() {
 function openBox() {
     alert('Boxen är öppnad nu!');
 } 
-
-
