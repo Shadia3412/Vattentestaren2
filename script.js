@@ -1,9 +1,10 @@
 document.addEventListener("DOMContentLoaded", function() {
     const loadingSpinner = document.getElementById("loadingSpinner");
+    const body = document.querySelector("body");
     loadingSpinner.style.display = "block";
     setTimeout(function() {
         loadingSpinner.style.display = "none";
-        document.querySelector("main").style.display = "block";
+        body.style.display = "block";
     }, 5000); // 5000 milliseconds = 5 seconds
 });
 
