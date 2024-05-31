@@ -2,10 +2,12 @@ document.addEventListener("DOMContentLoaded", function() {
     const loadingSpinner = document.getElementById("loadingSpinner");
     const body = document.querySelector("body");
     loadingSpinner.style.display = "block";
-    setTimeout(function() {
+    body.style.display = "none";
+
+    window.onload = function() {
         loadingSpinner.style.display = "none";
         body.style.display = "block";
-    }, 5000); // 5000 milliseconds = 5 seconds
+    };
 });
 
     // Initialize the wizard
