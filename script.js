@@ -1,34 +1,28 @@
-document.addEventListener("DOMContentLoaded", function() {
-    const loadingSpinner = document.getElementById("loadingSpinner");
-    const body = document.querySelector("body");
-    loadingSpinner.style.display = "block";
-    body.style.display = "none";
+document.addEventListener('DOMContentLoaded', function () {
+    setupMenuButton();
+    showLoadingSpinner(); // Visa spinnaren när sidan laddas
 
-    window.onload = function() {
-        loadingSpinner.style.display = "none";
-        body.style.display = "block";
-    };
-});
+    setTimeout(hideLoadingSpinner, 3000); // Dölj spinnaren efter 3 sekunder
+
+    // Add event listener for the search input
+    var searchInput = document.getElementById('searchInput');
+    if (searchInput) {
+        searchInput.addEventListener('input', function () {
+            filterPlaces();
+        });
+    }
 
     // Initialize the wizard
-    function showWizard() {
-        document.getElementById('wizardContainer').style.display = 'block';
-    }
-function toggleButton(event, buttonId) {
-    // Förhindra standardbeteendet
-    event.preventDefault();
+    initializeWizard();
+});
 
-    // Hämta alla toggle-knappar
-    var buttons = document.querySelectorAll('.toggle-button');
-    // Inaktivera alla knappar
-    buttons.forEach(function(button) {
-        button.classList.remove('active');
-    });
-    // Aktivera den valda knappen
-    var selectedButton = document.getElementById(buttonId);
-    selectedButton.classList.add('active');
+function showLoadingSpinner() {
+    document.getElementById('loadingSpinner').style.display = 'block';
 }
 
+function hideLoadingSpinner() {
+    document.getElementById('loadingSpinner').style.display = 'none';
+}
 function toggleMenu() {
     var menyCollapse = document.querySelector('.meny-collapse');
     if (menyCollapse.style.display === 'block') {
@@ -47,29 +41,32 @@ function setupMenuButton() {
     var menyButton = document.querySelector('.meny-btn');
     menyButton.addEventListener('click', toggleMenu);
 }
+function showLoadingSpinner() {
+    document.getElementById('loadingSpinner').style.display = 'block';
+}
 
 // Function to filter places based on search input
 function filterPlaces() {
-    var input, filter, ul, li, i, txtValue;
-    input = document.getElementById('searchInput');
-    filter = input.value.toUpperCase();
-    ul = document.getElementById("placesList");
-    li = ul.getElementsByTagName('li');
+    var input = document.getElementById('searchInput').value.toLowerCase();
+    var ul = document.getElementById("placesList");
+    var li = ul.getElementsByTagName('li');
+    var found = false;
 
-    // Show the list of places if the search input is not empty
-    if (filter.trim() !== "") {
-        ul.style.display = "block";
-    } else {
-        ul.style.display = "none";
-    }
+    ul.style.display = "none"; // Dölj listan som standard
 
-    for (i = 0; i < li.length; i++) {
-        txtValue = li[i].textContent || li[i].innerText;
-        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+    for (var i = 0; i < li.length; i++) {
+        var txtValue = li[i].textContent || li[i].innerText;
+        if (txtValue.toLowerCase().indexOf(input) > -1) {
             li[i].style.display = "";
+            ul.style.display = "block"; // Visa listan om det finns matchningar
+            found = true;
         } else {
             li[i].style.display = "none";
         }
+    }
+
+    if (!found) {
+        ul.style.display = "none"; // Dölj listan om inga matchningar hittades
     }
 }
 
@@ -93,12 +90,25 @@ function search() {
     var input = document.getElementById('searchInput').value.toLowerCase();
     if (input === 'sätraskogen') {
         highlightArea('satraskogen-highlight');
+    } else {
+        alert('Ingen matchning hittades.');
     }
+}
+function toggleButton(event, buttonId) {
+    var button = document.getElementById(buttonId);
+    var buttons = document.querySelectorAll('.toggle-button');
+
+    buttons.forEach(function(btn) {
+        btn.classList.remove('active');
+    });
+
+    button.classList.add('active');
 }
 
 function showWizard() {
     document.getElementById('wizardContainer').classList.add('active');
 }
+
 
 function nextStep(currentStep) {
     const fullName = document.getElementById('fullName').value;
