@@ -73,7 +73,7 @@
             align-items: center;
             margin-top: 20px;
         } 
-          /* Loading spinner styles */
+           /* Loading spinner styles */
         #loadingSpinner {
             display: none; /* Hidden by default */
             position: fixed;
@@ -98,8 +98,7 @@
 
     </style>
 </head>
-<body> 
-    
+<body>
     <div id="loadingSpinner" class="spinner-border text-primary" role="status">
         <span class="visually-hidden">Loading...</span>
     </div>
@@ -115,6 +114,7 @@
             </div>
         </div>
     </header>
+
     <main role="main" class="container">
         <section class="jumbotron text-center">
             <div class="container">
@@ -153,29 +153,29 @@
                 </form>
             </div>
             <!-- Step 2 -->
-            <!-- Step 2 -->
-<div id="step2" class="wizard-step">
-    <h2>Steg 2: Adressuppgifter och Leverans</h2>
-    <form id="step2Form">
-        <div class="mb-3">
-            <label for="address" class="form-label">Adress</label>
-            <input type="text" class="form-control" id="address" required>
-        </div>
-        <div class="mb-3">
-            <label for="postalCode" class="form-label">Postnummer</label>
-            <input type="text" class="form-control" id="postalCode" required>
-        </div>
-        <div>
-            <h5>Leveransalternativ</h5>
-            <div class="toggle-container">
-                <button type="button" class="toggle-button" id="clickCollectButton" onclick="toggleButton(event, 'clickCollectButton')">Click & Collect</button>
-                <button type="button" class="toggle-button" id="homeDeliveryButton" onclick="toggleButton(event, 'homeDeliveryButton')">Hemleverans</button>
+            <div id="step2" class="wizard-step">
+                <h2>Steg 2: Adressuppgifter och Leverans</h2>
+                <form id="step2Form">
+                    <div class="mb-3">
+                        <label for="address" class="form-label">Adress</label>
+                        <input type="text" class="form-control" id="address" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="postalCode" class="form-label">Postnummer</label>
+                        <input type="text" class="form-control" id="postalCode" required>
+                    </div>
+                    <div>
+                        <h5>Leveransalternativ</h5>
+                        <div class="toggle-container">
+                            <button type="button" class="toggle-button" id="clickCollectButton" onclick="toggleButton(event, 'clickCollectButton')">Click & Collect</button>
+                            <button type="button" class="toggle-button" id="homeDeliveryButton" onclick="toggleButton(event, 'homeDeliveryButton')">Hemleverans</button>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-secondary" onclick="previousStep(1)">Tillbaka</button>
+                    <button type="button" class="btn btn-primary" onclick="nextStep(2)">Nästa</button>
+                </form>
             </div>
-        </div>
-        <button type="button" class="btn btn-secondary" onclick="previousStep(1)">Tillbaka</button>
-        <button type="button" class="btn btn-primary" onclick="nextStep(2)">Nästa</button>
-    </form>
-</div>
+            
             <!-- Step 3 -->
             <div id="step3" class="wizard-step">
                 <h2>Steg 3: Bekräftelse</h2>
