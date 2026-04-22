@@ -86,36 +86,34 @@ body {
 
 <body>
 
-<nav class="navbar" style="background-color:#8FB3C1; padding: 10px 20px;">
-    <img src="naturvardsverket-logo.png" class="logo" alt="Logo">
+ <img src="naturvardsverket-logo.png" class="logo" alt="Naturvårdsverket logo">
 
-    <div class="ms-auto">
-        <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#menuContent" aria-expanded="false">
-            Meny
-        </button>
+    <button class="btn btn-primary meny-btn" onclick="toggleMenu()">
+        Meny
+    </button>
 
-        <div class="collapse mt-2" id="menuContent">
-          
+    <div class="meny-collapse" id="menyCollapse">
+        <a href="VattenTestaren.html" class="meny-item">Home</a>
+        <a href="Vattentestaren2.html" class="meny-item">Karta</a>
+        <a href="Vattentestaren4.html" class="meny-item">Manual</a>
+    </div>
+
+    <div class="main-content">
+        <h1>VattenTestaren</h1>
+        <h3>Karta</h3>
+
+        <div class="search-wrapper">
+            <div class="search-container">
+                <input type="text" id="searchInput" class="form-control" placeholder="Sök naturreservat...">
+                <button class="btn btn-primary" type="button">Sök</button>
+            </div>
+            <ul id="placesList"></ul>
+        </div>
+
+        <div class="map-image-container">
+            <img src="naturreservatoversikt.png" class="map-image" alt="Karta">
         </div>
     </div>
-</nav>
-
-<div class="main-content">
-    <h1>VattenTestaren</h1>
-    <h3>Karta</h3>
-
-    <div class="search-wrapper">
-        <div class="search-container">
-            <input type="text" id="searchInput" class="form-control" placeholder="Sök naturreservat...">
-            <button class="btn btn-primary" type="button">Sök</button>
-        </div>
-        <ul id="placesList"></ul>
-    </div>
-
-    <div class="map-image-container">
-        <img src="naturreservatoversikt.png" class="map-image" alt="Karta">
-    </div>
-</div>
 
 <script>
 const places = [
