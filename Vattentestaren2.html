@@ -100,13 +100,37 @@ body {
     text-align: center;
     padding-top: 60px;
 }
+    /* --- MARKERINGAR PÅ KARTA --- */
+.map-image-container {
+    position: relative;
+    width: 40%;
+    margin: 20px auto;
+}
+
+.map-image {
+    width: 100%;
+    display: block;
+}
+
+.marker {
+    position: absolute;
+    border: 3px solid red;
+    border-radius: 5px;
+    pointer-events: none;
+}
 </style>
 </head>
 
 <body>
+<div class="map-image-container">
 
 <img src="naturvardsverket-logo.png" class="logo" alt="Naturvårdsverket logo">
+ <!-- LÄGG TILL detta UNDER bilden -->
+    <div class="marker" style="top:42%; left:18%; width:90px; height:70px;"></div>
 
+    <div class="marker" style="top:65%; left:25%; width:85px; height:60px;"></div>
+
+</div>
 <button class="btn btn-primary meny-btn"
         type="button"
         data-bs-toggle="collapse"
