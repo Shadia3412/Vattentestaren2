@@ -1,30 +1,54 @@
 document.addEventListener('DOMContentLoaded', function () {
     setupMenuButton();
-    showLoadingSpinner(); // Visa spinnaren när sidan laddas
+    showLoadingSpinner();
 
-    setTimeout(hideLoadingSpinner, 3000); // Dölj spinnaren efter 3 sekunder
+    setTimeout(hideLoadingSpinner, 3000);
 
-    // Add event listener for the search input
     var searchInput = document.getElementById('searchInput');
     if (searchInput) {
-        searchInput.addEventListener('input', function () {
-            filterPlaces();
-        });
+        searchInput.addEventListener('input', filterPlaces);
     }
 
-    // Initialize the wizard
-    initializeWizard();
+    setupPlaceClicks();
+
+    if (typeof initializeWizard === 'function') {
+        initializeWizard();
+    }
 });
 
+const placeMap = {
+    "sätraskogen": "satraskogen-highlight",
+    "nacka": "nacka-highlight",
+    "hagsätraskogen": "hagsatraskogen-highlight",
+    "hansta": "hansta-highlight",
+    "judarskogen": "judarskogen-highlight",
+    "kungliga nationalstadsparken": "nationalstadsparken-highlight",
+    "grimsta": "grimsta-highlight",
+    "älvsjöskogen": "alvsjoskogen-highlight",
+    "rågsved": "ragsved-highlight",
+    "flaten": "flaten-highlight",
+    "igelbäcken": "igelbacken-highlight",
+    "årstaskogen": "arstaskogen-highlight"
+};
+
 function showLoadingSpinner() {
-    document.getElementById('loadingSpinner').style.display = 'block';
+    var spinner = document.getElementById('loadingSpinner');
+    if (spinner) {
+        spinner.style.display = 'block';
+    }
 }
 
 function hideLoadingSpinner() {
-    document.getElementById('loadingSpinner').style.display = 'none';
+    var spinner = document.getElementById('loadingSpinner');
+    if (spinner) {
+        spinner.style.display = 'none';
+    }
 }
+
 function toggleMenu() {
     var menyCollapse = document.querySelector('.meny-collapse');
+    if (!menyCollapse) return;
+
     if (menyCollapse.style.display === 'block') {
         menyCollapse.style.display = 'none';
     } else {
@@ -36,98 +60,158 @@ function goBack() {
     window.history.back();
 }
 
-// Function to add event listener to the menu button
 function setupMenuButton() {
     var menyButton = document.querySelector('.meny-btn');
-    menyButton.addEventListener('click', toggleMenu);
-}
-function showLoadingSpinner() {
-    document.getElementById('loadingSpinner').style.display = 'block';
+    if (menyButton) {
+        menyButton.addEventListener('click', toggleMenu);
+    }
 }
 
-// Function to filter places based on search input
 function filterPlaces() {
-    var input = document.getElementById('searchInput').value.toLowerCase();
-    var ul = document.getElementById("placesList");
+    var inputElement = document.getElementById('searchInput');
+    var ul = document.getElementById('placesList');
+
+    if (!inputElement || !ul) return;
+
+    var input = inputElement.value.toLowerCase().trim();
     var li = ul.getElementsByTagName('li');
     var found = false;
 
-    ul.style.display = "none"; // Dölj listan som standard
+    if (input === '') {
+        ul.style.display = 'none';
+        for (var j = 0; j < li.length; j++) {
+            li[j].style.display = 'none';
+        }
+        return;
+    }
 
     for (var i = 0; i < li.length; i++) {
         var txtValue = li[i].textContent || li[i].innerText;
-        if (txtValue.toLowerCase().indexOf(input) > -1) {
-            li[i].style.display = "";
-            ul.style.display = "block"; // Visa listan om det finns matchningar
+
+        if (txtValue.toLowerCase().includes(input)) {
+            li[i].style.display = '';
             found = true;
         } else {
-            li[i].style.display = "none";
+            li[i].style.display = 'none';
         }
     }
 
-    if (!found) {
-        ul.style.display = "none"; // Dölj listan om inga matchningar hittades
+    ul.style.display = found ? 'block' : 'none';
+}
+
+function setupPlaceClicks() {
+    var ul = document.getElementById('placesList');
+    if (!ul) return;
+
+    var li = ul.getElementsByTagName('li');
+
+    for (var i = 0; i < li.length; i++) {
+        li[i].addEventListener('click', function () {
+            var placeName = this.textContent || this.innerText;
+            document.getElementById('searchInput').value = placeName;
+            document.getElementById('placesList').style.display = 'none';
+            selectPlace(placeName);
+        });
     }
 }
 
-// Highlight Sätraskogen on the map
 function highlightArea(areaId) {
-    // Hide all highlighted areas
     var highlights = document.querySelectorAll('.highlight');
-    highlights.forEach(function(highlight) {
+
+    highlights.forEach(function (highlight) {
         highlight.style.display = 'none';
     });
-    
-    // Show the selected area
-    var highlight = document.getElementById(areaId);
-    if (highlight) {
-        highlight.style.display = 'block';
+
+    var selectedHighlight = document.getElementById(areaId);
+    if (selectedHighlight) {
+        selectedHighlight.style.display = 'block';
     }
 }
 
-// Search function to highlight Sätraskogen
+function selectPlace(placeName) {
+    var normalizedName = placeName.toLowerCase().trim();
+    var highlightId = placeMap[normalizedName];
+
+    if (highlightId) {
+        highlightArea(highlightId);
+    } else {
+        alert('Ingen markerad plats finns ännu för ' + placeName + '.');
+    }
+}
+
 function search() {
-    var input = document.getElementById('searchInput').value.toLowerCase();
-    if (input === 'sätraskogen') {
-        highlightArea('satraskogen-highlight');
+    var inputElement = document.getElementById('searchInput');
+    var ul = document.getElementById('placesList');
+
+    if (!inputElement || !ul) return;
+
+    var input = inputElement.value.toLowerCase().trim();
+    var li = ul.getElementsByTagName('li');
+    var visibleMatches = [];
+
+    for (var i = 0; i < li.length; i++) {
+        if (li[i].style.display !== 'none') {
+            visibleMatches.push(li[i]);
+        }
+    }
+
+    if (visibleMatches.length === 1) {
+        var placeName = visibleMatches[0].textContent || visibleMatches[0].innerText;
+        inputElement.value = placeName;
+        ul.style.display = 'none';
+        selectPlace(placeName);
+    } else if (visibleMatches.length > 1) {
+        ul.style.display = 'block';
+    } else if (placeMap[input]) {
+        ul.style.display = 'none';
+        selectPlace(input);
     } else {
         alert('Ingen matchning hittades.');
     }
 }
+
 function toggleButton(event, buttonId) {
     var button = document.getElementById(buttonId);
     var buttons = document.querySelectorAll('.toggle-button');
 
-    buttons.forEach(function(btn) {
+    buttons.forEach(function (btn) {
         btn.classList.remove('active');
     });
 
-    button.classList.add('active');
+    if (button) {
+        button.classList.add('active');
+    }
 }
 
 function showWizard() {
-    document.getElementById('wizardContainer').classList.add('active');
+    var wizard = document.getElementById('wizardContainer');
+    if (wizard) {
+        wizard.classList.add('active');
+    }
 }
 
-
 function nextStep(currentStep) {
-    const fullName = document.getElementById('fullName').value;
-    const email = document.getElementById('email').value;
-    const address = document.getElementById('address').value;
-    const postalCode = document.getElementById('postalCode').value;
-    const deliveryOption = document.querySelector('.toggle-button.active') ? document.querySelector('.toggle-button.active').innerText : '';
+    const fullName = document.getElementById('fullName') ? document.getElementById('fullName').value : '';
+    const email = document.getElementById('email') ? document.getElementById('email').value : '';
+    const address = document.getElementById('address') ? document.getElementById('address').value : '';
+    const postalCode = document.getElementById('postalCode') ? document.getElementById('postalCode').value : '';
+    const activeButton = document.querySelector('.toggle-button.active');
+    const deliveryOption = activeButton ? activeButton.innerText : '';
 
     if (currentStep === 1 && fullName && email) {
         localStorage.setItem('fullName', fullName);
         localStorage.setItem('email', email);
+
         document.getElementById('step1').classList.remove('active');
         document.getElementById('step2').classList.add('active');
     } else if (currentStep === 2 && address && postalCode && deliveryOption) {
         localStorage.setItem('address', address);
         localStorage.setItem('postalCode', postalCode);
         localStorage.setItem('deliveryOption', deliveryOption);
+
         document.getElementById('step2').classList.remove('active');
         document.getElementById('step3').classList.add('active');
+
         document.getElementById('displayFullName').innerText = localStorage.getItem('fullName');
         document.getElementById('displayEmail').innerText = localStorage.getItem('email');
         document.getElementById('displayAddress').innerText = localStorage.getItem('address');
@@ -151,8 +235,8 @@ function previousStep(currentStep) {
 function submitWizard() {
     alert('Beställning bekräftad!');
     localStorage.clear();
-} 
+}
 
 function openBox() {
     alert('Boxen är öppnad nu!');
-} 
+}
